@@ -5,6 +5,8 @@
 $ npm install gitbook-cli -g
 ```
 
+windows安装参考文档：https://www.cnblogs.com/Lam7/p/6109872.html
+
 ### fork 并克隆本项目
 ```
 $ git clone https://github.com/${YOUR_NAME}/datafoundry-document

@@ -7,9 +7,11 @@ oc create -f https://github.com/wangyadongd/datafoundry-document/blob/master/gra
 oc volume dc/prometheus --add --name=prom-k8s -m /etc/prometheus -t configmap --configmap-name=prom-k8s 
 oc env dc/grafana GF_INSTALL_PLUGINS=hawkular-datasource
 ```
+USER:admin/admin
 
 
 参考文档：
+
 https://github.com/debianmaster/openshift-examples/tree/master/promethus
 http://www.hawkular.org/blog/2016/10/24/hawkular-metrics-openshift-and-grafana.html
 https://grafana.com/plugins/hawkular-datasource

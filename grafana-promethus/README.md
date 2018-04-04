@@ -14,7 +14,7 @@ USER:admin/admin
 
 参考文档：
 
-https://github.com/debianmaster/openshift-examples/tree/master/promethus
-https://github.com/OpenShiftDemos/grafana-openshift
-http://www.hawkular.org/blog/2016/10/24/hawkular-metrics-openshift-and-grafana.html
-https://grafana.com/plugins/hawkular-datasource
+https://github.com/debianmaster/openshift-examples/tree/master/promethus 
+https://github.com/OpenShiftDemos/grafana-openshift 
+http://www.hawkular.org/blog/2016/10/24/hawkular-metrics-openshift-and-grafana.html 
+https://grafana.com/plugins/hawkular-datasource 

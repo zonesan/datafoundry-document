@@ -2,7 +2,7 @@
 
 
 ## 介绍
-* [Introduction](README.md)
+* [Introduction](introduction.md)
 
 ## 搭建集群
 * [安装集群](part1/README.md) 

@@ -4,7 +4,7 @@
 ## 介绍
 * [Introduction](introduction.md)
 
-## 搭建集群
+## 集群及相关组件部署
 * [安装集群](part1/README.md) 
   * [环境准备](part1/a.md)
   * [修改hosts](part1/b.md)

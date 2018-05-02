@@ -1,4 +1,4 @@
-![](DFlogo-03.png)
+![](images/DFlogo-03.png)
 
 欢迎来到 DataFoundry （铸数工坊）！
 

@@ -1,16 +1,57 @@
 # 常用命令
-* [基础命令](#basic)
-* [构建和部署命令](#buildDeploy)
-* [应用管理](#appManagement)
+* [基础命令](#基础命令)
+  * [集群类型介绍(oc types)](#集群类型介绍)
+  * [登录集群(oc login)](#登录集群)
+  * [创建新的 project(oc new-project)](#创建新的 project)
+  * [创建新应用(oc new-app)](#创建新应用)
+  * [显示/切换所在 project(oc project)](#显示/切换所在 project)
+  * [列出用户权限下的所有 project(oc projects)](#列出用户权限下的所有 project)
+* [构建和部署命令](#构建和部署命令)
+  * [部署(oc rollout)](#部署)
+  * [回滚(oc rollback)](#回滚)
+  * [新建构建镜像(oc new-build)](#新建构建镜像)
+  * [启动构建镜像(oc start-build)](#启动构建镜像)
+  * [取消构建镜像(oc cancel-build)](#取消构建镜像)
+  * [添加镜像 tag(oc tag)](#添加镜像 tag)
+* [应用管理](#应用管理)
+  * [查看资源类型列表(oc get)](#查看资源类型列表)
+  * [查看资源类型的详情信息(oc describe)](#查看资源类型的详情信息)
+  * [修改资源类型信息(oc edit)](#修改资源类型信息)
+  * [配置应用的资源(oc set)](#配置应用的资源)
+  * [标签操作(oc label)](#标签操作)
+  * [svc/router 映射(oc expose)](#svc/router 映射)
+  * [删除(oc delete)](#删除)
+  * [调度(oc scale)](#调度)
+  * [弹性伸缩(oc autoscale)](#弹性伸缩)
+  * [secret(oc secret)](#secret)
+* [运维命令](#运维命令)
+  * [日志(oc logs)](#日志)
+  * [进入pod(oc rsh)](#进入pod)
+  * [文件传输(oc rsync)](#文件传输)
+  * [run(oc run)](#run)
+  * [拷贝(oc cp)](#拷贝)
+* [高级命令](#高级命令)
+  * [创建(oc create)](#创建)
+    * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
+    * [创建ConfigMap(oc create configmap)](#创建ConfigMap)
+    * [创建deployment(oc create deployment)](#创建deployment)
+    * [创建deployment config(oc create deploymentconfig)](#创建deployment config)
+    * [创建image stream(oc create imagestream)](#创建image stream)
+  * [导出模版配置(oc export)](#导出模版配置)
+  * [提取 secret/configmap(oc extract)](#提取 secret/configmap)
+  * [登出(oc logout)](#登出)
+  * [显示当前用户(oc whoami)](#显示当前用户)
+  * [查看版本(oc version)](#查看版本)
+* [管理员命令](#part-command/oc-adm.md)
 
-## <span id="basic">基础命令</span>
+## 基础命令
 
-**集群类型介绍**
+### 集群类型介绍
 ```
 oc types
 ```
 
-**登录集群**
+### 登录集群
 ```
 oc login <SERVER_URL>
 
@@ -23,7 +64,7 @@ Example:
     oc login 10.19.14.19:8443 -u abc -p abc
 ``` 
 
-**创建新的 project**
+### 创建新的 project
 ```
 oc new-project <NAME>
 
@@ -37,7 +78,7 @@ Example:
     oc new-project test
 ```
 
-**创建应用**
+### 创建新应用
 ```
 oc new-app <image | imageStream | template | Dockerfile path | Dockerfile url>
 
@@ -55,29 +96,27 @@ Example:
   oc new-app https://github.com/openshift/ruby-ex.git
 ```
 
-**显示所在 project**
-```
-oc project
-```
-
-**切换 project**
+### 显示/切换所在 project
 ```
 oc project <PROJECT_NAME>
 
 Example:
+  #显示当前project
+  oc project 
+
   #切换到 test2 的 project
   oc project test2
 ```
 
-**列出用户权限下的所有 project**
+### 列出用户权限下的所有 project
 ```
 oc projects
 oc get project
 ```
 
-## <span id="buildDeploy">构建和部署命令</span>
+## 构建和部署命令
 
-**部署**
+### 部署
 ```
 oc rollout [command] dc/<dcName>
 
@@ -91,7 +130,7 @@ Example：
   #将 dc-test 部署为最新版本
   oc rollout latest dc/dc-test
 ```
-**回滚**
+### 回滚
 ```
 oc rollback <dcName>
 
@@ -100,7 +139,7 @@ Example:
   oc rollback dc-test
 ```
 
-**新建构建镜像**
+### 新建构建镜像
 ```
 oc new-build <url | path ... >      用于构建一个新的镜像
 
@@ -114,7 +153,7 @@ Example:
   oc new-build . --name=test
 ```
 
-**启动构建镜像**
+### 启动构建镜像
 ```
 oc start-build <bc>
 
@@ -123,7 +162,7 @@ Example:
   oc start-build bc-test
 ```
 
-**取消构建镜像**
+### 取消构建镜像
 ```
 oc cancel-build <bcNmae>
 
@@ -132,7 +171,7 @@ Example：
   oc cancel-build bc-test
 ```
 
-**添加镜像 tag**
+### 添加镜像 tag
 ```
 oc tag <source> <dest>
 
@@ -141,9 +180,9 @@ Example：
   oc tag test1 test2:latest
 ```
 
-## <span id="appManagement">应用管理</span>
+## 应用管理
 
-**列出一种或多种资源类型**
+### 查看资源类型列表
 ```
 oc get <type/name>                  typeName 可以是 oc types 看到的所有 type
 
@@ -170,7 +209,7 @@ Example：
   oc get node --show-labels
 ```
 
-**显示资源类型的详情信息**
+### 查看资源类型的详情信息
 ```
 oc describe <type/name>
     
@@ -185,7 +224,7 @@ Example:
   oc describe pod
 ```
 
-**修改资源类型**
+### 修改资源类型信息
 ```
 oc edit <type/name>
 
@@ -197,7 +236,7 @@ Example:
   oc edit dc/test1
 ```
 
-**配置应用的资源**  
+### 配置应用的资源
 ```
 oc set <COMMAND>
 
@@ -270,7 +309,7 @@ Example：
   oc set volume dc/registry --remove --name=v1
 ```
 
-**标签操作**
+### 标签操作
 ```
 oc label <RESOURCE/NAME> <KEY1=VLA1>...
 
@@ -282,7 +321,7 @@ Example：
   oc label pods test status-
 ```
 
-**svc/router 映射**
+### svc/router 映射
 ```
 oc expose <RESOURCE/NAME>
 
@@ -304,7 +343,7 @@ Example：
   oc expose dc ruby-hello-world --port=8080 --type NodePort
 ```
 
-**删除**
+### 删除
 ```
 oc delete <RESOURCE/NAME>
 
@@ -322,7 +361,7 @@ Example：
   oc delete svc --all
 ```
 
-**调度**
+### 调度
 ```
 oc scale --replicas=<COUNT> <RESOURCE/NAME>
 
@@ -337,7 +376,7 @@ Example:
   oc scale --replicas=0  rc test-1
 ```
 
-**弹性伸缩**
+### 弹性伸缩
 ```
 oc autoscale <RESOURCE/NAME>
 
@@ -355,7 +394,7 @@ Example：
   oc autoscale rc/test-1 --max=5 --cpu-percent=80
 ```
 
-**secret**
+### secret
 ```
 oc secret new <NAME>
 
@@ -369,7 +408,7 @@ Example：
 
 ## 运维命令
 
-**日志**
+### 日志
 ```
 oc logs <POD>
 
@@ -385,9 +424,11 @@ Example：
   oc logs test-zdgj -c test1
 ```
 
-**进入pod**
+### 进入pod
 ```
 oc rsh <POD> [COMMAND]
+
+pod的状态必须为Running
 
 Options:
   -c,--container=''                  多个容器时，指定具体容器名
@@ -400,7 +441,7 @@ Example：
   oc rsh test-zdgj cat /etc/resolv.conf
 ```
 
-**文件传输**
+### 文件传输
 ```
 oc rsync <SOURCE> <DESTINATION>
 
@@ -413,7 +454,7 @@ Example：
 ```
 
 
-**run**
+### run
 ```
 oc run --image=<IMAGE>
 
@@ -435,7 +476,7 @@ Example:
   oc run ngx --image=nginx --replicas=5
 ```
 
-**拷贝**
+### 拷贝
 ```
 oc cp <FILE_SRC> <FILE_DEST>
 
@@ -456,16 +497,71 @@ Example：
 
 ## 高级命令
 
-**集群管理工具**
-```
-oc adm
-```
-
+### 创建
 ```
 oc create
 ```
 
-**导出模版配置**
+* #### 创建集群资源配额
+
+```
+oc create clusterresourcequota <NAME>
+
+
+Options:
+  --hard                                  限制的资源，RESOURCE=QUANTITY(pods=10)
+  --project-annotation-selector=''        注释选择器
+  --project-label-selector=''             标签选择器
+
+Example:
+#限制某些注释的 project 的 pod 上限是 10
+  oc create clusterresourcequota test  --project-annotation-selector=openshift.io/requester=user-bob --hard=pods=10
+```
+
+* #### 创建ConfigMap
+```
+oc create configmap <NAME>
+
+Options:
+  --from-file=[]                          指定在 cm 中插入的文件
+  --from-literal=[]                       指定在 cm 中插入的文字
+
+Example:
+  #基于文件或文件夹创建 configmap
+  oc create configmap /test/test
+
+  #创建包含 key1 和 key2 两部分内容的 configmap
+  oc create configmap my-config --from-literal=key1=config1 --from-literal=key2=config2
+
+```
+
+* #### 创建deployment
+```
+oc create deployment <NAME> --image=<IMAGE_TAG>
+
+Example:
+  #使用 nginx 镜像创建一个 deployment
+  oc create deployment abc --image=nginx:latest
+```
+
+* #### 创建deployment config
+```
+oc create deploymentconfig <NAME> --image=<IMAGE_TAG>
+
+Example:
+  #使用 nginx 镜像创建一个 dc
+  oc create deploymentconfig abc --image=nginx
+```
+
+* #### 创建image stream
+```
+oc create imagestream nginx
+```
+
+&nbsp;
+&nbsp;
+  
+### 导出模版配置
 ```
 oc export <RESOURCE/NAME> 
 以配置的方式导出某一资源
@@ -477,7 +573,7 @@ Example:
   oc export dc/test -o json
 ```
 
-**提取secret/configmap**
+### 提取 secret/configmap
 ```
 oc extract <RESOURCE/NAME>
 
@@ -491,12 +587,12 @@ Example:
 ```
 
 
-**登出**
+### 登出
 ```
 oc logout
 ```
 
-**显示当前用户**
+### 显示当前用户
 ```
 oc whoami
 
@@ -512,7 +608,7 @@ Example:
 ```
 
 
-**版本**
+### 查看版本
 ```
 查看客户端和服务端版本
 oc version

@@ -20,14 +20,18 @@
 
 
 ## 命令
-* [基础命令](oc-command.md) 
-* [管理员命令](part2/c.md)
-* 常见问题处理
+* [基础命令](part-command/oc-command.md) 
+* [管理员命令](part-command/oc-adm.md)
+
 
 
 ## 应用部署
 
+## [常见问题](FAQ.md)
+
 ## ...
+
+
 
 ## 最后部分
 * [写文档之前读这里](end/README.md)

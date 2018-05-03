@@ -17,6 +17,7 @@
 * 安装dnsmasq
 * 安装yum源
 * 私有镜像库搭建
+* granafa部署(grafana-promethus/README.md)
 
 
 ## 命令

@@ -4,7 +4,7 @@
   * [登录集群(oc login)](#登录集群)
   * [创建新的project(oc new-project)](#创建新的project)
   * [创建新应用(oc new-app)](#创建新应用)
-  * [显示/切换所在project(oc project)](#显示\/切换所在project)
+  * [显示/切换所在project(oc project)](#显示or切换所在project)
   * [列出用户权限下的所有project(oc projects)](#列出用户权限下的所有project)
 * [构建和部署命令](#构建和部署命令)
   * [部署(oc rollout)](#部署)
@@ -33,7 +33,7 @@
 * [高级命令](#高级命令)
   * [创建(oc create)](#创建)
     * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
-    * [创建ConfigMap(oc create configmap)](#创建configMap)
+    * [创建configMap(oc create configmap)](#创建configMap)
     * [创建deployment(oc create deployment)](#创建deployment)
     * [创建deploymentConfig(oc create deploymentconfig)](#创建deploymentConfig)
     * [创建imageStream(oc create imagestream)](#创建imageStream)
@@ -96,7 +96,7 @@ Example:
   oc new-app https://github.com/openshift/ruby-ex.git
 ```
 
-### 显示\/切换所在project
+### 显示or切换所在project
 ```
 oc project <PROJECT_NAME>
 

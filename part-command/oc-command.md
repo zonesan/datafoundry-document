@@ -96,7 +96,7 @@ Example:
   oc new-app https://github.com/openshift/ruby-ex.git
 ```
 
-### 显示/切换所在project
+### 显示\/切换所在project
 ```
 oc project <PROJECT_NAME>
 

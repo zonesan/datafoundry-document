@@ -2,24 +2,24 @@
 * [基础命令](#基础命令)
   * [集群类型介绍(oc types)](#集群类型介绍)
   * [登录集群(oc login)](#登录集群)
-  * [创建新的 project(oc new-project)](#创建新的 project)
+  * [创建新的project(oc new-project)](#创建新的project)
   * [创建新应用(oc new-app)](#创建新应用)
-  * [显示/切换所在 project(oc project)](#显示/切换所在 project)
-  * [列出用户权限下的所有 project(oc projects)](#列出用户权限下的所有 project)
+  * [显示/切换所在project(oc project)](#显示/切换所在project)
+  * [列出用户权限下的所有project(oc projects)](#列出用户权限下的所有project)
 * [构建和部署命令](#构建和部署命令)
   * [部署(oc rollout)](#部署)
   * [回滚(oc rollback)](#回滚)
   * [新建构建镜像(oc new-build)](#新建构建镜像)
   * [启动构建镜像(oc start-build)](#启动构建镜像)
   * [取消构建镜像(oc cancel-build)](#取消构建镜像)
-  * [添加镜像 tag(oc tag)](#添加镜像 tag)
+  * [添加镜像tag(oc tag)](#添加镜像tag)
 * [应用管理](#应用管理)
   * [查看资源类型列表(oc get)](#查看资源类型列表)
   * [查看资源类型的详情信息(oc describe)](#查看资源类型的详情信息)
   * [修改资源类型信息(oc edit)](#修改资源类型信息)
   * [配置应用的资源(oc set)](#配置应用的资源)
   * [标签操作(oc label)](#标签操作)
-  * [svc/router 映射(oc expose)](#svc/router 映射)
+  * [svc/router映射(oc expose)](#svc/router映射)
   * [删除(oc delete)](#删除)
   * [调度(oc scale)](#调度)
   * [弹性伸缩(oc autoscale)](#弹性伸缩)
@@ -35,10 +35,10 @@
     * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
     * [创建ConfigMap(oc create configmap)](#创建ConfigMap)
     * [创建deployment(oc create deployment)](#创建deployment)
-    * [创建deployment config(oc create deploymentconfig)](#创建deployment config)
-    * [创建image stream(oc create imagestream)](#创建image stream)
+    * [创建deploymentConfig(oc create deploymentconfig)](#创建deploymentConfig)
+    * [创建imageStream(oc create imagestream)](#创建imageStream)
   * [导出模版配置(oc export)](#导出模版配置)
-  * [提取 secret/configmap(oc extract)](#提取 secret/configmap)
+  * [提取secret/configmap(oc extract)](#提取secret/configmap)
   * [登出(oc logout)](#登出)
   * [显示当前用户(oc whoami)](#显示当前用户)
   * [查看版本(oc version)](#查看版本)
@@ -64,7 +64,7 @@ Example:
     oc login 10.19.14.19:8443 -u abc -p abc
 ``` 
 
-### 创建新的 project
+### 创建新的project
 ```
 oc new-project <NAME>
 
@@ -96,7 +96,7 @@ Example:
   oc new-app https://github.com/openshift/ruby-ex.git
 ```
 
-### 显示/切换所在 project
+### 显示/切换所在project
 ```
 oc project <PROJECT_NAME>
 
@@ -108,7 +108,7 @@ Example:
   oc project test2
 ```
 
-### 列出用户权限下的所有 project
+### 列出用户权限下的所有project
 ```
 oc projects
 oc get project
@@ -171,7 +171,7 @@ Example：
   oc cancel-build bc-test
 ```
 
-### 添加镜像 tag
+### 添加镜像tag
 ```
 oc tag <source> <dest>
 
@@ -321,7 +321,7 @@ Example：
   oc label pods test status-
 ```
 
-### svc/router 映射
+### svc/router映射
 ```
 oc expose <RESOURCE/NAME>
 
@@ -544,7 +544,7 @@ Example:
   oc create deployment abc --image=nginx:latest
 ```
 
-* #### 创建deployment config
+* #### 创建deploymentConfig
 ```
 oc create deploymentconfig <NAME> --image=<IMAGE_TAG>
 
@@ -553,7 +553,7 @@ Example:
   oc create deploymentconfig abc --image=nginx
 ```
 
-* #### 创建image stream
+* #### 创建imageStream
 ```
 oc create imagestream nginx
 ```
@@ -573,7 +573,7 @@ Example:
   oc export dc/test -o json
 ```
 
-### 提取 secret/configmap
+### 提取secret/configmap
 ```
 oc extract <RESOURCE/NAME>
 

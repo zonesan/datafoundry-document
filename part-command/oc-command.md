@@ -33,7 +33,7 @@
 * [高级命令](#高级命令)
   * [创建(oc create)](#创建)
     * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
-    * [创建ConfigMap(oc create configmap)](#创建ConfigMap)
+    * [创建ConfigMap(oc create configmap)](#创建configMap)
     * [创建deployment(oc create deployment)](#创建deployment)
     * [创建deploymentConfig(oc create deploymentconfig)](#创建deploymentConfig)
     * [创建imageStream(oc create imagestream)](#创建imageStream)
@@ -518,7 +518,7 @@ Example:
   oc create clusterresourcequota test  --project-annotation-selector=openshift.io/requester=user-bob --hard=pods=10
 ```
 
-* #### 创建ConfigMap
+* #### 创建configMap
 ```
 oc create configmap <NAME>
 

@@ -4,7 +4,7 @@
   * [登录集群(oc login)](#登录集群)
   * [创建新的project(oc new-project)](#创建新的project)
   * [创建新应用(oc new-app)](#创建新应用)
-  * [显示/切换所在project(oc project)](#显示/切换所在project)
+  * [显示/切换所在project(oc project)](#显示\/切换所在project)
   * [列出用户权限下的所有project(oc projects)](#列出用户权限下的所有project)
 * [构建和部署命令](#构建和部署命令)
   * [部署(oc rollout)](#部署)

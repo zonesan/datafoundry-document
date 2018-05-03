@@ -35,14 +35,14 @@
     * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
     * [创建configMap(oc create configmap)](#创建configmap)
     * [创建deployment(oc create deployment)](#创建deployment)
-    * [创建dc(oc create deploymentconfig)](#创建dc)
-    * [创建is(oc create imagestream)](#创建is)
+    * [创建deploymentconfig(oc create deploymentconfig)](#创建deploymentconfig)
+    * [创建imagestream(oc create imagestream)](#创建imagestream)
   * [导出模版配置(oc export)](#导出模版配置)
   * [提取secret/configmap(oc extract)](#提取secret或configmap)
   * [登出(oc logout)](#登出)
   * [显示当前用户(oc whoami)](#显示当前用户)
   * [查看版本(oc version)](#查看版本)
-* [管理员命令](part-command/oc-adm.md)
+* [管理员命令](oc-adm.md)
 
 ## 基础命令
 
@@ -544,7 +544,7 @@ Example:
   oc create deployment abc --image=nginx:latest
 ```
 
-* #### 创建dc
+* #### 创建deploymentconfig
 ```
 oc create deploymentconfig <NAME> --image=<IMAGE_TAG>
 
@@ -553,7 +553,7 @@ Example:
   oc create deploymentconfig abc --image=nginx
 ```
 
-* #### 创建is
+* #### 创建imagestream
 ```
 oc create imagestream nginx
 ```

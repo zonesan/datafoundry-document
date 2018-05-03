@@ -19,7 +19,7 @@
   * [修改资源类型信息(oc edit)](#修改资源类型信息)
   * [配置应用的资源(oc set)](#配置应用的资源)
   * [标签操作(oc label)](#标签操作)
-  * [svc/router映射(oc expose)](#svc/router映射)
+  * [svc/router映射(oc expose)](#svc或router映射)
   * [删除(oc delete)](#删除)
   * [调度(oc scale)](#调度)
   * [弹性伸缩(oc autoscale)](#弹性伸缩)
@@ -33,16 +33,16 @@
 * [高级命令](#高级命令)
   * [创建(oc create)](#创建)
     * [创建集群资源配额(oc create clusterresourcequota)](#创建集群资源配额)
-    * [创建configMap(oc create configmap)](#创建configMap)
+    * [创建configMap(oc create configmap)](#创建configmap)
     * [创建deployment(oc create deployment)](#创建deployment)
-    * [创建deploymentConfig(oc create deploymentconfig)](#创建deploymentConfig)
-    * [创建imageStream(oc create imagestream)](#创建imageStream)
+    * [创建dc(oc create deploymentconfig)](#创建dc)
+    * [创建is(oc create imagestream)](#创建is)
   * [导出模版配置(oc export)](#导出模版配置)
-  * [提取secret/configmap(oc extract)](#提取secret/configmap)
+  * [提取secret/configmap(oc extract)](#提取secret或configmap)
   * [登出(oc logout)](#登出)
   * [显示当前用户(oc whoami)](#显示当前用户)
   * [查看版本(oc version)](#查看版本)
-* [管理员命令](#part-command/oc-adm.md)
+* [管理员命令](part-command/oc-adm.md)
 
 ## 基础命令
 
@@ -321,7 +321,7 @@ Example：
   oc label pods test status-
 ```
 
-### svc/router映射
+### svc或router映射
 ```
 oc expose <RESOURCE/NAME>
 
@@ -518,7 +518,7 @@ Example:
   oc create clusterresourcequota test  --project-annotation-selector=openshift.io/requester=user-bob --hard=pods=10
 ```
 
-* #### 创建configMap
+* #### 创建configmap
 ```
 oc create configmap <NAME>
 
@@ -544,7 +544,7 @@ Example:
   oc create deployment abc --image=nginx:latest
 ```
 
-* #### 创建deploymentConfig
+* #### 创建dc
 ```
 oc create deploymentconfig <NAME> --image=<IMAGE_TAG>
 
@@ -553,7 +553,7 @@ Example:
   oc create deploymentconfig abc --image=nginx
 ```
 
-* #### 创建imageStream
+* #### 创建is
 ```
 oc create imagestream nginx
 ```
@@ -573,7 +573,7 @@ Example:
   oc export dc/test -o json
 ```
 
-### 提取secret/configmap
+### 提取secret或configmap
 ```
 oc extract <RESOURCE/NAME>
 

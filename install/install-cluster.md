@@ -1,23 +1,23 @@
 # 集群安装
-[一、安装基础环境](#一、安装基础环境)
+* [安装基础环境](#安装基础环境)
 
-[二、需要准备的镜像](#二、需要准备的镜像)
+* [需要准备的镜像](#需要准备的镜像)
 
-[三、修改hosts文件](#三、修改hosts文件)
+* [修改hosts文件](#修改hosts文件)
 
-[四、执行脚本安装集群](#四、执行脚本安装集群)
+* [执行脚本安装集群](#执行脚本安装集群)
 
-[五、安装service-brokers](#五、安装service-brokers)
+* [安装service-brokers](#安装service-brokers)
 
-[六、部署df页面](#六、部署df页面)
+* [部署df页面](#部署df页面)
 
-   
-  
+
+## 安装基础环境
+
 >如果是离线安装需要提前准备以下辅助工具：  
 >1.yum源  
 >2.私有镜像库  
 
-## 一、安装基础环境
 
 ### 1.安装docker、ansiable 
 
@@ -113,7 +113,7 @@ git clone https://github.com/wangyadongd/openshift-ansible.git#release-3.6
 ```
 
 
-## 二、需要准备的镜像
+## 需要准备的镜像
 
 公网环境可以直接pull下面镜像
 ```
@@ -131,16 +131,16 @@ registry.new.dataos.io/openshift/origin-pod:v3.6.0
 registry.new.dataos.io/coreetcd/etcd:v2.3.7   
 ```
 
-## 三、修改hosts文件
+## 修改hosts文件
 根据现场环境，修改模版下的[hosts](file-template/hosts)
 
-## 四、执行脚本安装集群
+## 执行脚本安装集群
 hosts为刚才修改的hosts
 ```
  ansible-playbook -i hosts openshift-ansible/playbooks/byo/config.yml
 ```
 
-## 五、安装service-brokers
+## 安装service-brokers
 
 ### 5.1 创建brokers的etcd
 将里面的ip更改为有效ip
@@ -222,7 +222,7 @@ oc new-servicebroker etcd --username=asiainfoLDP --password=2016asia --url=http:
 ```
 
 
-## 六、部署df页面
+## 部署df页面
 ### 6.1 创建datafoundry-web的tempalte资源
 ```
 #创建
@@ -248,8 +248,7 @@ oc new-project datafoundry
  HEKETI_KEY=<VALUE6> \
  ROUTER_DOMAIN_SUFFIX=<VALUE7> \
  REGISTRY_PRIVATE_ADDR=<VALUE8> \
- INTERNAL_REGISTRY_ADDR=<VALUE9> \
- REGISTRY_PUBLIC_ADDR=<VALUE10> \
+ REGISTRY_PUBLIC_ADDR=<VALUE9> \
  | oc create -f -
 ```
 
@@ -269,11 +268,9 @@ HEKETI_KEY                              heketi管理员用户的key
 
 ROUTER_DOMAIN_SUFFIX                    创建应用时，自动生成域名所使用的泛域名，如：*.app.prd.asiainfo.com
 
-REGISTRY_PRIVATE_ADDR                   
+REGISTRY_PRIVATE_ADDR                   集群default下的docker-registry的域名地址,如：docker-registry-default.lo.dataos.io
 
-INTERNAL_REGISTRY_ADDR
-
-REGISTRY_PUBLIC_ADDR
+REGISTRY_PUBLIC_ADDR                    公共镜像库的域名地址，如：registry.new.dataos.io
 
 ```
 

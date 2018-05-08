@@ -2,7 +2,10 @@
 
 ## 介绍
 * [Introduction](README.md)
-;* [Introduction](introduction.md)
+
+<!--
+* [Introduction](introduction.md)
+-->
 
 ## 集群及相关组件部署
 * [硬件需求](install/hardware.md)
@@ -22,6 +25,7 @@
 
 ## ...
 
-;## 最后部分
-;* [写文档之前读这里](end/README.md)
-
+<!-- 
+## 最后部分
+* [写文档之前读这里](end/README.md)
+-->

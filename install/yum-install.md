@@ -5,6 +5,8 @@
 yum install httpd createrepo
 ```
 
+**离线环境需要手动下载rpm包，进行安装**
+
 ## 解压包文件
 ```
 tar -xf yumrepo.tar -C /var/www/html/

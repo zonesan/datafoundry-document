@@ -8,14 +8,19 @@
 -->
 
 ## 集群及相关组件部署
-* [硬件需求](install/hardware.md)
-* [集群安装](install/install-cluster.md)
-* [DF相关组件安装](part1/README2.md)
-    * [dns服务器部署](install/dnsmasq.md)
-    * [zookeeper集群部署](part1/zookeeper.md)
-    * [glusterfs集群部署](part1/glusterfs.md)
-    * [容器化glusterfs集群部署](part1/containter_glusterfs.md)
-    * [yum源安装](install/yum-install.md)
+* [硬件需求](install/cluster/hardware.md)
+* [集群安装](install/cluster/install-cluster.md)
+
+
+## DF相关组件安装
+* [dns服务器部署](install/other/dnsmasq.md)
+* [yum源安装](install/other/yum-install.md)
+* [GlusterFS部署](glusterfs/README.md)
+  * [glusterfs集群本地部署](glusterfs/local-install.md)
+  * [glusterfs集群容器化部署](part1/containter_glusterfs.md)
+* [zookeeper集群部署](part1/zookeeper.md)
+* [Grafana部署](grafana-promethus/README.md)
+
 
 ## 命令
 * [基础命令](part-command/oc-command.md)

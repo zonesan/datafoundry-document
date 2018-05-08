@@ -1,9 +1,21 @@
 # 集群安装
+[一、安装基础环境](#一、安装基础环境)
 
+[二、需要准备的镜像](#二、需要准备的镜像)
 
-如果是离线安装需要提前准备以下辅助工具：  
-1.yum源
-2.私有镜像库
+[三、修改hosts文件](#三、修改hosts文件)
+
+[四、执行脚本安装集群](#四、执行脚本安装集群)
+
+[五、安装service-brokers](#五、安装service-brokers)
+
+[六、部署df页面](#六、部署df页面)
+
+   
+  
+>如果是离线安装需要提前准备以下辅助工具：  
+>1.yum源  
+>2.私有镜像库  
 
 ## 一、安装基础环境
 
@@ -106,6 +118,7 @@ git clone https://github.com/wangyadongd/openshift-ansible.git#release-3.6
 公网环境可以直接pull下面镜像
 ```
 registry.dataos.io/openshift/ldp-origin:v1.1.6-ldp0.4.19
+registry.new.dataos.io/datafoundry/datafoundryvolume:latest
 
 registry.new.dataos.io/openshift/node:v3.6.0  
 registry.new.dataos.io/openshift/openvswitch:v3.6.0  
@@ -208,3 +221,73 @@ docker exec -it openshift-origin bash
 oc new-servicebroker etcd --username=asiainfoLDP --password=2016asia --url=http://servicebroker.dataos.io
 ```
 
+
+## 六、部署df页面
+### 6.1 创建datafoundry-web的tempalte资源
+```
+#创建
+oc create -f df-web-template.yaml -n openshift
+
+#查看
+oc get template |grep datafoundry-web
+```
+
+### 6.2 创建df页面的project
+```
+oc new-project datafoundry
+```
+
+### 6.3 在datafoundry下创建页面服务
+```
+ oc process -n openshift datafoundry-web \
+ DATAFOUNDRY_WEB_URL=<VALUE1> \
+ DATAFOUNDRY_APISERVER_ADDR=<VALUE2> \
+ DATAFOUNDRY_ADMIN_USER=<VALUE3> \
+ DATAFOUNDRY_ADMIN_PASS=<VALUE4> \
+ HEKETI_USER=<VALUE5> \
+ HEKETI_KEY=<VALUE6> \
+ ROUTER_DOMAIN_SUFFIX=<VALUE7> \
+ REGISTRY_PRIVATE_ADDR=<VALUE8> \
+ INTERNAL_REGISTRY_ADDR=<VALUE9> \
+ REGISTRY_PUBLIC_ADDR=<VALUE10> \
+ | oc create -f -
+```
+
+**变量说明：**
+```
+DATAFOUNDRY_WEB_URL                     应用创建成功后，访问的域名地址，需遵守当前集群使用泛域名，如：dfweb-test.lo.dataos.io
+
+DATAFOUNDRY_APISERVER_ADDR              api入口，一般为lb地址，如：10.1.234.34
+
+DATAFOUNDRY_ADMIN_USER                  集群管理员用户名
+
+DATAFOUNDRY_ADMIN_PASS                  集群管理员密码
+
+HEKETI_USER                             heketi管理员用户
+
+HEKETI_KEY                              heketi管理员用户的key
+
+ROUTER_DOMAIN_SUFFIX                    创建应用时，自动生成域名所使用的泛域名，如：*.app.prd.asiainfo.com
+
+REGISTRY_PRIVATE_ADDR                   
+
+INTERNAL_REGISTRY_ADDR
+
+REGISTRY_PUBLIC_ADDR
+
+```
+
+
+### 6.4 查看访问页面
+```
+# 查看pod状态
+oc get pod
+NAME                               READY     STATUS    RESTARTS   AGE
+datafoundrypayment-1-5gs45         1/1       Running   0          5m
+datafoundryservicevolume-1-cdwjl   1/1       Running   0          5m
+gitter-1-4vw69                     1/1       Running   0          5m
+web-console-1-3dm5v                2/2       Running   0          5m
+
+# 查看url，访问
+oc get route|grep web-console|awk '{print $2}'
+```

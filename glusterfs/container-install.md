@@ -30,8 +30,21 @@ glusterfs
 
 
 [OSEv3:vars]
+#glusterfs
 openshift_storage_glusterfs_namespace=glusterfs
 openshift_storage_glusterfs_name=storage
+
+##gluster image
+openshift_storage_glusterfs_image=registry.new.dataos.io/glusterfs/gluster-centos
+openshift_storage_glusterfs_version=latest
+
+##glusterfs-provisioner image
+openshift_storage_glusterfs_block_image=registry.new.dataos.io/glusterfs/glusterblock-provisioner
+openshift_storage_glusterfs_block_version=latest
+
+##heketi image
+openshift_storage_glusterfs_heketi_image=registry.new.dataos.io/glusterfs/heketi
+openshift_storage_glusterfs_heketi_version=4-danli-build
 ...
 
 [glusterfs]
@@ -48,4 +61,4 @@ ansible-playbook -i hosts \
 ```
 
 
-生成的router是不可用的，具体router 要根据你集群绑定的域名自己导出来一个可用的router
+生成的router可能是不可用的，具体router 要根据你集群绑定的域名自己导出来一个可用的router

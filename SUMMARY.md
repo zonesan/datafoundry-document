@@ -17,8 +17,8 @@
 * [yum源安装](install/other/yum-install.md)
 * [GlusterFS部署](glusterfs/README.md)
   * [glusterfs集群本地部署](glusterfs/local-install.md)
-  * [glusterfs集群容器化部署](part1/containter_glusterfs.md)
-* [zookeeper集群部署](part1/zookeeper.md)
+  * [glusterfs集群容器化部署](glusterfs/container-install.md)
+* [zookeeper集群部署](zookeeper/local-install.md)
 * [Grafana部署](grafana-promethus/README.md)
 
 

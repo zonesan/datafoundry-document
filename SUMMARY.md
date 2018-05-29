@@ -2,13 +2,11 @@
 
 ## 介绍
 * [Introduction](README.md)
-<!--
-* [Introduction](introduction.md)
- -->
 
 ## 集群及相关组件部署
 
 * [硬件需求](install/cluster/hardware.md)
+* [开放端口](install/cluster/open_port.md)
 * [集群安装](install/cluster/install-cluster.md)
 
 
@@ -32,7 +30,9 @@
 ## 页面使用
 * [项目管理](part-webuse/management-project.md)
 * [构建镜像](part-webuse/build-image.md)
-* [部署应用](part-webuse/run-app.md)
+* [部署一个简单应用](part-webuse/run-simple-app.md)
+* [卷使用的实例](part-webuse/run-pvc-app.md)
+* [有状态集使用实例]()
 
 
 ## 常见问题

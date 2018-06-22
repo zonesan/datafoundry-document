@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  creationTimestamp: null
+  name: gluster-heketi
+parameters:
+  gidMax: "50000"
+  gidMin: "40000"
+  restauthenabled: "true"
+  resturl: http://10.23.4.22:8080		#heketi的url
+  restuser: admin						#heketi管理员用户
+  secretName: heketi-secret				#secret
+  secretNamespace: default
+  volumetype: replicate:2
+provisioner: kubernetes.io/glusterfs

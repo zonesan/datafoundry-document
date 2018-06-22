@@ -204,6 +204,22 @@ heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv 
 heketi-cli --json --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv device add	--name="/dev/vdd" --node="<node-id>"
 ```
 
+
+
+## 创建storage class
+编辑[heketi-secret.yaml](./template-file/heketi-secret.yaml)的密码部分，密码部分经过base64加密
+```
+创建heketi-secret.yaml
+oc create -f heketi-secret.yaml
+```
+编辑[storage-class.yaml](./template-file/storage-class.yaml)文件中，url，管理员用户部分
+```
+创建storage class
+$oc create -f storage-class.yaml
+```
+
+
+
 ## 其它heketi客户端常用命令：
 ```
 heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv cluster list

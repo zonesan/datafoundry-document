@@ -19,10 +19,8 @@
 >2.私有镜像库  
 
 
-### 1.安装docker、ansiable 
 
-
-#### 1.1 安装ansible 
+### 1.1 安装ansible 
 **离线安装**  
 yum源中有ansible的包,直接使用yum命令安装。
 ```
@@ -39,7 +37,7 @@ sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
 ```
 
 
-#### 1.2 编辑jiedian.txt文件
+### 1.2 编辑jiedian.txt文件
 编辑文件jiedian.txt此文件只是方便执行ansiable命令，模版如下：
 ```
 [master] 
@@ -53,7 +51,7 @@ sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
 <node2_ip>
 ```
 
-#### 1.3 配置互信 
+### 1.3 配置互信 
 将所有ip都加入到下面命令。
 ```
 ssh-keygen -t rsa
@@ -71,12 +69,12 @@ for i in master1 \
 ansible -i jiedian.txt all -m ping 
 ```
 
-#### 1.4 安装docker 
+### 1.4 安装docker 
 yum源中有docker的包，直接使用yum命令安装。
 ```
 yum install -y docker
 ```
-#### 1.5 配置私有镜像库信任
+### 1.5 配置私有镜像库信任
 ```
 cat /etc/docker/daemon.json
 {
@@ -90,7 +88,7 @@ cat /etc/docker/daemon.json
 ansible -i hosts-list all -s -m copy -a "/etc/docker/daemon.json dest=/etc/docker/daemon.json"
 
 ```
-#### 1.6 配置docker存储
+### 1.6 配置docker存储
 
 ```
 ansible -i hosts-list node -s -m shell -a "pvcreate /dev/xxx"
@@ -102,14 +100,14 @@ ansible -i hosts-list node -s -m shell -a "echo '/dev/mapper/vgdocker-lvdocker /
 ansible -i hosts-list node -s -m shell -a "service docker restart"
 ```
 
-#### 1.7 启动docker 
+### 1.7 启动docker 
 ```
 service docker start
 ```
 
 #### 1.8 下载ansible-playbook
 ```
-git clone https://github.com/wangyadongd/openshift-ansible.git#release-3.6
+git clone https://github.com/wangyadongd/openshift-ansible.git -b release-3.6
 ```
 
 

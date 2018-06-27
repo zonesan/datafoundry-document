@@ -144,7 +144,7 @@ hosts为刚才修改的hosts
 将里面的ip更改为有效ip
 ```
 docker run -d -p 2380:2380 -p 2379:2379 \
- --name etcd 10.174.64.184:5000/coreetcd/etcd:v2.3.7 \
+ --name etcd registry.new.dataos.io/coreetcd/etcd:latest \
  -name etcd0 \
  -advertise-client-urls http://10.174.64.182:2379 \
  -listen-client-urls http://0.0.0.0:2379 \

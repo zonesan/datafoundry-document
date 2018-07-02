@@ -14,6 +14,9 @@
 
 ## 安装基础环境
 
+**docker 版本:1.12.6**  
+**ansible 版本：2.3/2.4**
+
 >如果是离线安装需要提前准备以下辅助工具：  
 >1.yum源  
 >2.私有镜像库  
@@ -126,36 +129,39 @@ registry.new.dataos.io/openshift/origin-docker-builder:v3.6.0
 registry.new.dataos.io/openshift/origin-docker-registry:v3.6.0  
 registry.new.dataos.io/openshift/origin-haproxy-router:v3.6.0  
 registry.new.dataos.io/openshift/origin-pod:v3.6.0
-registry.new.dataos.io/coreetcd/etcd:v2.3.7   
+registry.dataos.io/w_openshift/etcd
 ```
 
 ## 修改hosts文件
-根据现场环境，修改模版下的[hosts](file-template/hosts)
+根据现场环境，修改模版下的hosts:  
+* [一主多从](../file-template/multiple-masters-hosts)  
+* [多主多从](../file-template/single-masters-hosts)  
 
 ## 执行脚本安装集群
-hosts为刚才修改的hosts
+hosts_path为刚才修改的hosts文件路径
 ```
- ansible-playbook -i hosts openshift-ansible/playbooks/byo/config.yml
+ ansible-playbook -i <hosts_path> openshift-ansible/playbooks/byo/config.yml
 ```
 
 ## 安装service-brokers
 
 ### 5.1 创建brokers的etcd
+找一台单独机器部署etcd
 将里面的ip更改为有效ip
 ```
 docker run -d -p 2380:2380 -p 2379:2379 \
- --name etcd registry.new.dataos.io/coreetcd/etcd:latest \
+ --name etcd  registry.dataos.io/coreetcd/etcd:v2.3.7 \
  -name etcd0 \
- -advertise-client-urls http://10.174.64.182:2379 \
+ -advertise-client-urls http://10.19.14.20:2379 \
  -listen-client-urls http://0.0.0.0:2379 \
- -initial-advertise-peer-urls http://10.174.64.182:2380 \
+ -initial-advertise-peer-urls http://10.19.14.20:2380 \
  -listen-peer-urls http://0.0.0.0:2380 \
  -initial-cluster-token etcd-cluster-1 \
- -initial-cluster etcd0=http://10.174.64.182:2380 \
+ -initial-cluster etcd0=http://10.19.14.20:2380 \
  -initial-cluster-state new
 ```
 
-安装etcd客户端
+在该机器安装etcd客户端
 ```
 yum install etcd
 ```
@@ -187,7 +193,7 @@ oc new-project service-brokers
 oadm policy add-cluster-role-to-user cluster-admin <user_name>
 ```
 
-编辑datafoundryservicebrokeropenshift.yaml文件
+编辑[datafoundryservicebrokeropenshift.yaml](../file-template/datafoundryservicebrokeropenshift.yaml)文件
 
 根据yaml文件创建dc
 ```
@@ -196,7 +202,7 @@ oc create -f datafoundryservicebrokeropenshift.yaml
 
 service-brokers映射一个svc
 ```
-oc expose dc datafoundryservicebrokeropenshift --port=8888
+oc expose dc servicebroker-openshift --port=8888
 ```
 
 映射路由
@@ -222,12 +228,13 @@ oc new-servicebroker etcd --username=asiainfoLDP --password=2016asia --url=http:
 
 ## 部署df页面
 ### 6.1 创建datafoundry-web的tempalte资源
+根据[yaml文件](../file-template/df-web-template.yaml)创建template
 ```
 #创建
 oc create -f df-web-template.yaml -n openshift
 
 #查看
-oc get template |grep datafoundry-web
+oc get template -n openshift |grep datafoundry-web
 ```
 
 ### 6.2 创建df页面的project

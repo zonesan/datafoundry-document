@@ -134,11 +134,11 @@ registry.dataos.io/w_openshift/etcd
 
 ## 修改hosts文件
 根据现场环境，修改模版下的hosts:  
-* [一主多从](file-template/multiple-masters-hosts)  
-* [多主多从](file-template/single-masters-hosts)  
+* [一主多从](../file-template/multiple-masters-hosts)  
+* [多主多从](../file-template/single-masters-hosts)  
 
 ## 执行脚本安装集群
-hosts_path为刚才修改的hosts路径
+hosts_path为刚才修改的hosts文件路径
 ```
  ansible-playbook -i <hosts_path> openshift-ansible/playbooks/byo/config.yml
 ```
@@ -193,7 +193,7 @@ oc new-project service-brokers
 oadm policy add-cluster-role-to-user cluster-admin <user_name>
 ```
 
-编辑[datafoundryservicebrokeropenshift.yaml](file-template/datafoundryservicebrokeropenshift.yaml)文件
+编辑[datafoundryservicebrokeropenshift.yaml](../file-template/datafoundryservicebrokeropenshift.yaml)文件
 
 根据yaml文件创建dc
 ```
@@ -228,7 +228,7 @@ oc new-servicebroker etcd --username=asiainfoLDP --password=2016asia --url=http:
 
 ## 部署df页面
 ### 6.1 创建datafoundry-web的tempalte资源
-根据[yaml文件](file-template/df-web-template.yaml)创建template
+根据[yaml文件](../file-template/df-web-template.yaml)创建template
 ```
 #创建
 oc create -f df-web-template.yaml -n openshift

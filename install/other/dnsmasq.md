@@ -10,7 +10,7 @@ yum install dnsmasq
 ```
 echo "address=/xxx.com/10.1.1.x" > /etc/dnsmasq.d/address.conf
 
-service iptables restart
+service dnsmasq restart
 ```
 
 ## 客户端配置

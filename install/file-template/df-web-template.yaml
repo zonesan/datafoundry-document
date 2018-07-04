@@ -39,7 +39,7 @@ objects:
         containers:
         - env:
           - name: DATAFOUNDRY_API_SERVER
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: GITHUB_CALLBACK_URL
             value: https://lab.new.dataos.io/github_oauth_cb
           - name: GITHUB_CLIENT_ID
@@ -138,7 +138,7 @@ objects:
           - name: DATAFOUNDRY_ADMIN_USER
             value: ${DATAFOUNDRY_ADMIN_USER}
           - name: DATAFOUNDRY_HOST_ADDR
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: GLUSTER_ENDPOINTS_NAME
             value: glusterfs-cluster
           - name: HEKETI_HOST_ADDR
@@ -253,9 +253,9 @@ objects:
           - name: ENV_DATAINSTANCE_PORT
             value: DATAFOUNDRYDATAINSTANCE_SERVICE_PORT
           - name: APISERVER_CN_NORTH_01
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: APISERVER_CN_NORTH_02
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: DATAFOUNDRY_ADMIN_PASS
             value: ${DATAFOUNDRY_ADMIN_PASS}
           - name: DATAFOUNDRY_ADMIN_USER
@@ -345,9 +345,9 @@ objects:
         containers:
         - env:
           - name: API_SERVER_ADDR
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: API_METRICS_ADDR
-            value: hawkular-metrics.openshift-infra.svc
+            value: 172.25.222.80
           - name: ROUTER_DOMAIN_SUFFIX
             value: ${ROUTER_DOMAIN_SUFFIX}
           - name: API_GITTER_ADDR
@@ -363,7 +363,7 @@ objects:
           - name: REGISTRY_PUBLIC_ADDR
             value: ${REGISTRY_PUBLIC_ADDR}
           - name: APIS_PRD_ADDR
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: INTERNAL_REGISTRY_ADDR
             value: ${INTERNAL_REGISTRY_ADDR}
           image: registry.new.dataos.io/datafoundry/web-console:v1
@@ -379,15 +379,15 @@ objects:
           - name: MESSAGE_SENDER_ADMIN
             value: admin
           - name: DATAFOUNDRY_HOST_ADDR
-            value: https://${APISERVER}:443
+            value: https://${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: DATAFOUNDRY_ADMIN_USER
             value: ${DATAFOUNDRY_ADMIN_USER}
           - name: DATAFOUNDRY_ADMIN_PASS
             value: ${DATAFOUNDRY_ADMIN_PASS}
           - name: DATAFOUNDRY_APISERVER_ADDR
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           - name: DATAFOUNDRY_APISERVER_AWS_ADDR
-            value: ${APISERVER}:443
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
           image: registry.new.dataos.io/datafoundry/proxy
           imagePullPolicy: Always
           name: proxy
@@ -461,11 +461,16 @@ parameters:
   name: DATAFOUNDRY_WEB_URL
   required: true
   value: dfweb-test.lo.dataos.io
-- description: DATAFOUNDRY_APISERVER_ADDR
-  displayName: DATAFOUNDRY_APISERVER_ADDR
+- description: DATAFOUNDRY_API_SERVER_ADDR
+  displayName: DATAFOUNDRY_API_SERVER_ADDR
   name: APISERVER
   required: true
   value: 10.1.234.34
+- description: DATAFOUNDRY_API_SERVER_PORT
+  displayName: DATAFOUNDRY_API_SERVER_PORT
+  name: DATAFOUNDRY_API_SERVER_PORT
+  required: true
+  value: "443"
 - description: DATAFOUNDRY_ADMIN_USER
   displayName: DATAFOUNDRY_ADMIN_USER
   name: DATAFOUNDRY_ADMIN_USER

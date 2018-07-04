@@ -143,9 +143,33 @@ hosts_path为刚才修改的hosts文件路径
  ansible-playbook -i <hosts_path> openshift-ansible/playbooks/byo/config.yml
 ```
 
-## 安装service-brokers
+**集群安装完成后，修改scc**
 
+```
+oc edit scc restricted
+
+
+修改以下内容：
+requiredDropCapabilities:
+- KILL
+- MKNOD
+- SYS_CHROOT
+- SETUID
+- SETGID
+runAsUser:
+  type: MustRunAsRange
+
+修改为：
+requiredDropCapabilities:
+runAsUser:
+  type: RunAsAny
+```
+
+
+
+## 安装service-brokers
 ### 5.1 创建brokers的etcd
+
 找一台单独机器部署etcd
 将里面的ip更改为有效ip
 ```
@@ -210,6 +234,67 @@ oc expose dc servicebroker-openshift --port=8888
 oc expose svc servicebroker-openshift —hostname=servicebroker.dataos.io
 ```
 
+
+<!--
+### 5.1 创建集群管理员
+将某一用户提升为集群管理员
+```
+oadm policy add-cluster-role-to-user cluster-admin <user_name>
+```
+
+### 5.2 根据template创建service-brokers
+```
+oc process -n openshift service-brokers \
+DATAFOUNDRYPROXYADDR=<VALUE1> \
+ENDPOINTSUFFIX=<VALUE2> \
+ETCDUSER=<VALUE3> \
+ETCDPASSWORD=<VALUE4> \
+NODE_ADDRESSES=<VALUE5> \
+OPENSHIFTADDR=<VALUE6> \
+OPENSHIFTUSER=<VALUE7> \
+OPENSHIFTPASS=<VALUE8> \
+NODE_DOMAINS=<VALUE9> \
+SERBICE_BROKERS_URL=<VALUE10> \
+ | oc create -f -
+```
+
+**变量说明：**
+```
+必填：
+DATAFOUNDRYPROXYADDR                    datafoundry volume pod的svc IP，如：172.25.79.230:9095
+
+ENDPOINTSUFFIX                          实例的route使用的泛域名，如：instance.abc.io
+
+ETCDUSER                                连接broker etcd使用的用户
+
+ETCDPASSWORD                            连接broker etcd使用的用户密码
+
+NODE_ADDRESSES                          集群node的ip，可以写部分也可以全写，如：10.1.235.176,10.1.235.177,10.1.235.178,10.1.235.179
+
+OPENSHIFTADDR                           集群地址，单master时为masterIP：port；多master时，lbIP：port，也可为masterIP建议使用lbIP，如：10.1.234.33:443
+
+OPENSHIFTUSER                           集群管理员用户
+
+OPENSHIFTPASS                           集群管理员用户密码
+
+NODE_DOMAINS                            node的域名，公网环境可以配置成Node_IP.xip.io，如：10.1.235.176.xip.io,10.1.235.177.xip.io,10.1.235.178.xip.io,10.1.235.179.xip.io；内网环境需要在域名服务器设置解析到node的节点的域名
+
+SERBICE_BROKERS_URL                     service-brokers的地址
+
+
+可选：
+
+STORM_EXTERNAL_ZK                       strom使用的zookeep IP，如：172.16.123.157,172.16.177.54,172.16.82.141
+
+STORAGECLASSNAME                        集群storageclass名字
+
+SBNAMESPACE                             实例启动的project，默认service-brokers
+```
+
+
+### 5.3 写入实例catlog
+-->
+
 ### 启动all-in-one容器
 ```
 docker run -d -p 8443:8443 --name "openshift-origin" \
@@ -219,6 +304,7 @@ registry.dataos.io/openshift/ldp-origin:v1.1.6-ldp0.4.19 start
 ```
 
 ### 创建brokers
+进入all-in-one容器创建brokers
 ```
 docker exec -it openshift-origin bash
 

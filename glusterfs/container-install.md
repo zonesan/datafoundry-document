@@ -96,3 +96,8 @@ oc get pvc
 NAME      STATUS    VOLUME                                     CAPACITY   ACCESSMODES   STORAGECLASS     AGE
 test1     Bound     pvc-312d4648-840e-11e8-aa7d-fa163e6d21ac   1Gi        RWX           gluster-heketi   9s
 ```
+
+
+
+**注意事项：**
+集群每个节点需要安装glusterfs-3.8.4-18的glusterfs客户端，否则会导致pvc无法挂载到pod。

@@ -48,6 +48,7 @@ vi /root/.ssh/authorized_keys
 ```
 
 ## 编辑heketi.json
+将以下内容替换默认的heketi.json的内容
 ```
 sudo vi /etc/heketi/heketi.json
 ```
@@ -205,21 +206,6 @@ heketi-cli --json --server=http://localhost:8080 --user=admin --secret=kLd834dad
 ```
 
 
-
-## 创建storage class
-编辑[heketi-secret.yaml](./template-file/heketi-secret.yaml)的密码部分，密码部分经过base64加密
-```
-创建heketi-secret.yaml
-oc create -f heketi-secret.yaml
-```
-编辑[storage-class.yaml](./template-file/storage-class.yaml)文件中，url，管理员用户部分
-```
-创建storage class
-$oc create -f storage-class.yaml
-```
-
-
-
 ## 其它heketi客户端常用命令：
 ```
 heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv cluster list
@@ -235,3 +221,76 @@ heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv 
 heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv volume expand --volume=<volune-id> --expand-size=1
 heketi-cli --server=http://localhost:8080 --user=admin --secret=kLd834dadEsfwcv volume delete <volune-id>
 ```
+
+
+
+## 创建storage class
+编辑heketi-secret.yaml的key部分，key部分内容为heketi.json中admin的key值经过base64加密后的数值
+```yaml
+apiVersion: v1
+data:
+  key: a0xkODM0ZGFkRXNmd2N2
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: heketi-secret
+type: kubernetes.io/glusterfs
+```
+```
+创建heketi-secret.yaml
+oc create -f heketi-secret.yaml -n default
+```
+
+
+
+
+编辑storage-class.yaml，其中resturl为heketi的url，secretName为刚创建的secret的名字
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  creationTimestamp: null
+  name: gluster-heketi
+parameters:
+  gidMax: "50000"
+  gidMin: "40000"
+  restauthenabled: "true"
+  resturl: http://10.23.4.22:8080
+  restuser: admin
+  secretName: heketi-secret
+  secretNamespace: default
+  volumetype: replicate:2
+provisioner: kubernetes.io/glusterfs
+```
+```
+创建storage class
+$oc create -f storage-class.yaml
+```
+
+
+## 创建pvc
+通过pvc.yaml文件创建pvc,storageClassName与刚才创建的StorageClass名字匹配
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: test1
+spec:
+ accessModes:
+  - ReadWriteMany
+ resources:
+   requests:
+        storage: 1Gi
+ storageClassName: gluster-heketi
+```
+
+```
+#查看pvc
+oc get pvc
+
+#显示为以下内容即为正常创建
+NAME      STATUS    VOLUME                                     CAPACITY   ACCESSMODES   STORAGECLASS     AGE
+test1     Bound     pvc-312d4648-840e-11e8-aa7d-fa163e6d21ac   1Gi        RWX           gluster-heketi   9s
+```
+
+

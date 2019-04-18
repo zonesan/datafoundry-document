@@ -1,0 +1,29 @@
+global_defs {
+   router_id ocp_vrrp
+}
+
+vrrp_script haproxy_check {
+   script "killall -0 haproxy || systemctl stop keepalived"
+   interval 2
+   weight -5
+}
+
+vrrp_instance OCP_EXT {
+   interface bond1 
+
+   virtual_router_id 51
+
+   priority  98
+   state  BACKUP
+   virtual_ipaddress {
+       <VIP>  dev bond1
+
+   }
+   track_script {
+       haproxy_check
+   }
+   authentication {
+      auth_type PASS
+      auth_pass <PASS>
+   }
+}

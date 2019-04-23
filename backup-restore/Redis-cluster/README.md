@@ -1,4 +1,4 @@
-Redis cluster -> Redis cluster
+# Redis cluster -> Redis cluster
 ## 拉取源码
 1.git clone https://github.com/JokerQueue/redis-migrate-tool.git
 ## 编译

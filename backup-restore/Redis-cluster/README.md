@@ -9,3 +9,5 @@ autoreconf -fvi
 make
 ## 同步两个集群
 3.src/redis-migrate-tool -c rmt.conf -o log -d
+
+参考链接：https://my.oschina.net/u/3023401/blog/2251461

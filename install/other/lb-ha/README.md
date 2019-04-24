@@ -41,3 +41,26 @@ openshift_master_cluster_public_hostname=<VIP>
 
 ```
 hosts里面不要 添加[lb模块],lb模块的haproxy已经启动了，直接配置使用vip即可.
+
+
+
+## 测试
+可以达到的效果：
+	当haproxy停止时，keepalived会自动停止，vip发生切换。
+	当haproxy启动时，keepalived也会自动启动，vip发生切换。
+
+测试停止：
+```
+	sudo systemctl stop haproxy
+	sudo systemctl status haproxy
+	ip addr|grep <VIP>
+	sudo systemctl status keepalived
+```
+
+测试启动：
+```
+	sudo systemctl start haproxy
+	sudo systemctl status haproxy
+	ip addr|grep <VIP>
+	sudo systemctl status keepalived
+ ```

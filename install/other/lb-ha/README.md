@@ -11,12 +11,13 @@ yum install haproxy keeyalived
 ## 配置启动脚本
 1.添加脚本文件keepalive启动脚本start-keepalived.sh
 2.配置crontab
+```
 执行crontab -e，添加：
 ##DF: auto start keepalived after haproxy started.
 #* * * * * /home/aisware/bin/start-keepalived.sh & >>/home/aisware/log.txt  2>&1
 
 * * * * * /home/aisware/bin/start-keepalived.sh & >/dev/null
-
+```
 
 
 ## 启动服务

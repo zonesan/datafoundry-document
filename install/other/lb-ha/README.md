@@ -51,16 +51,16 @@ hosts里面不要 添加[lb模块],lb模块的haproxy已经启动了，直接配
 
 测试停止：
 ```
-	sudo systemctl stop haproxy
-	sudo systemctl status haproxy
-	ip addr|grep <VIP>
-	sudo systemctl status keepalived
+sudo systemctl stop haproxy
+sudo systemctl status haproxy
+ip addr|grep <VIP>
+sudo systemctl status keepalived
 ```
 
 测试启动：
 ```
-	sudo systemctl start haproxy
-	sudo systemctl status haproxy
-	ip addr|grep <VIP>
-	sudo systemctl status keepalived
+sudo systemctl start haproxy
+sudo systemctl status haproxy
+ip addr|grep <VIP>
+sudo systemctl status keepalived
  ```

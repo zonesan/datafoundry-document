@@ -1,0 +1,48 @@
+[OSEv3:children]
+masters
+etcd
+nodes
+
+
+[OSEv3:vars]
+ansible_ssh_user=root
+ansible_become=true
+deployment_type=origin
+
+#config use image version
+openshift_image_tag='v3.6.0'
+
+
+#config use image tag
+osm_image=registry.dataos.io/w_openshift/origin
+osn_image=registry.dataos.io/w_openshift/node
+osn_ovs_image=registry.dataos.io/w_openshift/openvswitch
+
+osm_etcd_image=registry.dataos.io/w_openshift/etcd
+
+oreg_url=registry.dataos.io/w_openshift/origin-${component}:${version}
+
+
+openshift_master_api_port=8443
+openshift_master_console_port=8443
+osm_cluster_network_cidr=172.26.0.0/16
+openshift_portal_net=172.25.0.0/16
+osm_host_subnet_length=8
+enable_excluders=false
+
+
+openshift_disable_check=memory_availability,disk_availability,docker_storage,docker_image_availability
+
+
+# host group for masters
+[masters]
+10.19.14.19 containerized=true openshift_hostname=10.19.14.19 openshift_ip=10.19.14.19
+
+[etcd]
+10.19.14.19 containerized=true openshift_hostname=10.19.14.19 openshift_ip=10.19.14.19
+
+# host group for nodes, includes region info
+[nodes]
+10.19.14.19 containerized=true openshift_hostname=10.19.14.19 openshift_ip=10.19.14.19
+10.19.14.20 openshift_node_labels="{'region': 'infra', 'zone': 'default'}" containerized=true openshift_ip=10.19.14.20 openshift_hostname=10.19.14.20
+10.19.14.21 openshift_node_labels="{'region': 'infra', 'zone': 'default'}" containerized=true openshift_ip=10.19.14.21 openshift_hostname=10.19.14.21

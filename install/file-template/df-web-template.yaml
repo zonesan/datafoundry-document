@@ -1,0 +1,513 @@
+apiVersion: v1
+kind: Template
+metadata:
+  annotations:
+    description: Description
+    iconClass: datafoundryweb
+    tags: web,gitter,payment,volume
+  creationTimestamp: null
+  name: datafoundry-web
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      run: gitter
+    name: gitter
+  spec:
+    replicas: 1
+    selector:
+      run: gitter
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          run: gitter
+      spec:
+        containers:
+        - env:
+          - name: DATAFOUNDRY_API_SERVER
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: GITHUB_CALLBACK_URL
+            value: https://lab.new.dataos.io/github_oauth_cb
+          - name: GITHUB_CLIENT_ID
+            value: b4c520b40003191bced9
+          - name: GITHUB_CLIENT_SECRET
+            value: 5083d27a119647f4f93cc3c658f46bbef888becd
+          - name: GITLAB_APP_ID
+            value: 475ab6b70ee4b6d4ccbda8ae42c996fb0229b5665f514c416eb79bb0f1b648c5
+          - name: GITLAB_BASEURL
+            value: https://gitlab.com
+          - name: GITLAB_CALLBACK_URL
+            value: https://lab.new.dataos.io/gitlab_oauth_cb
+          - name: GITLAB_CLIENT_SECRET
+            value: 212d22a88a9527a804658eb4d5c7151e30964795621af3eba846013cd6ded18c
+          image: registry.new.dataos.io/datafoundry/datafoundry-gitter:v1
+          imagePullPolicy: Always
+          name: gitter
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      run: gitter
+    name: gitter
+  spec:
+    ports:
+    - port: 7000
+      protocol: TCP
+      targetPort: 7000
+    selector:
+      run: gitter
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      dadafoundry.io/image-datafoundryservicevolume: datafoundryservicevolume:latest
+      dadafoundry.io/imageorisshow: ""
+      dadafoundry.io/imageorpublic: "false"
+      dadafoundry.io/last-replicas: "1"
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: datafoundryservicevolume
+    name: datafoundryservicevolume
+  spec:
+    replicas: 1
+    selector:
+      app: datafoundryservicevolume
+      deploymentconfig: datafoundryservicevolume
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: datafoundryservicevolume
+          deploymentconfig: datafoundryservicevolume
+      spec:
+        containers:
+        - env:
+          - name: DATAFOUNDRY_ADMIN_PASS
+            value: ${DATAFOUNDRY_ADMIN_PASS}
+          - name: DATAFOUNDRY_ADMIN_USER
+            value: ${DATAFOUNDRY_ADMIN_USER}
+          - name: DATAFOUNDRY_HOST_ADDR
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: GLUSTER_ENDPOINTS_NAME
+            value: glusterfs-cluster
+          - name: HEKETI_HOST_ADDR
+            value: ${HEKETI_HOST_ADDR}
+          - name: HEKETI_HOST_PORT
+            value: "8080"
+          - name: HEKETI_KEY
+            value: ${HEKETI_KEY}
+          - name: HEKETI_USER
+            value: ${HEKETI_USER}
+          - name: STORAGE_CLASS_NAME
+            value: gluster-heketi
+          - name: GLUSTER_VOLUME_REPLICA
+            value: "3"
+          image: registry.new.dataos.io/datafoundry/datafoundryvolume:v1
+          imagePullPolicy: Always
+          name: datafoundryservicevolume
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: datafoundryservicevolume
+    name: datafoundryservicevolume
+  spec:
+    ports:
+    - port: 9095
+      protocol: TCP
+      targetPort: 9095
+    selector:
+      app: datafoundryservicevolume
+      deploymentconfig: datafoundryservicevolume
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      dadafoundry.io/last-replicas: "1"
+      openshift.io/deployment.cancelled: "3"
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: datafoundrypayment
+    name: datafoundrypayment
+  spec:
+    replicas: 1
+    selector:
+      app: datafoundrypayment
+      deploymentconfig: datafoundrypayment
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/container.datafoundrypayment.image.entrypoint: '["/bin/bash"]'
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: datafoundrypayment
+          deploymentconfig: datafoundrypayment
+      spec:
+        containers:
+        - env:
+          - name: ENV_MARKET_HOST
+            value: DATAFOUNDRYPLAN_SERVICE_HOST
+          - name: ENV_MARKET_PORT
+            value: DATAFOUNDRYPLAN_SERVICE_PORT
+          - name: ENV_CHECKOUT_HOST
+            value: DATAFOUNDRYSERVICEUSAGE_SERVICE_HOST
+          - name: ENV_CHECKOUT_PORT
+            value: DATAFOUNDRYSERVICEUSAGE_SERVICE_PORT
+          - name: ENV_BALANCE_HOST
+            value: DATAFOUNDRYRECHARGE_SERVICE_HOST
+          - name: ENV_BALANCE_PORT
+            value: DATAFOUNDRYRECHARGE_SERVICE_PORT
+          - name: ENV_COUPON_HOST
+            value: DATAFOUNDRYCOUPON_SERVICE_HOST
+          - name: ENV_COUPON_PORT
+            value: DATAFOUNDRYCOUPON_SERVICE_PORT
+          - name: ENV_DATAINSTANCE_HOST
+            value: DATAFOUNDRYDATAINSTANCE_SERVICE_HOST
+          - name: ENV_DATAINSTANCE_PORT
+            value: DATAFOUNDRYDATAINSTANCE_SERVICE_PORT
+          - name: APISERVER_CN_NORTH_01
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: APISERVER_CN_NORTH_02
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: DATAFOUNDRY_ADMIN_PASS
+            value: ${DATAFOUNDRY_ADMIN_PASS}
+          - name: DATAFOUNDRY_ADMIN_USER
+            value: ${DATAFOUNDRY_ADMIN_USER}
+          - name: ENV_INTEGRATION_HOST
+            value: DATAINTEGRATION_SERVICE_HOST
+          - name: ENV_INTEGRATION_PORT
+            value: DATAINTEGRATION_SERVICE_PORT
+          image: registry.new.dataos.io/datafoundry/datafoundrypayment:v1
+          imagePullPolicy: Always
+          name: datafoundrypayment
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: datafoundrypayment
+    name: datafoundrypayment
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: datafoundrypayment
+      deploymentconfig: datafoundrypayment
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: web-console
+      run: web-console
+    name: web-console
+  spec:
+    replicas: 1
+    selector:
+      app: web-console
+      deploymentconfig: web-console
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+        creationTimestamp: null
+        labels:
+          app: web-console
+          deploymentconfig: web-console
+      spec:
+        containers:
+        - env:
+          - name: API_SERVER_ADDR
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: API_METRICS_ADDR
+            value: 172.25.222.80
+          - name: ROUTER_DOMAIN_SUFFIX
+            value: ${ROUTER_DOMAIN_SUFFIX}
+          - name: API_GITTER_ADDR
+            value: gitter:7000
+          - name: WEBHOOK_PREFIX
+            value: https://test.datafoundry.io
+          - name: REGISTRY_PRIVATE_ADDR
+            value: ${REGISTRY_PRIVATE_ADDR}
+          - name: API_VOLUME_ADDR
+            value: datafoundryservicevolume:9095
+          - name: API_PROXY_ADDR
+            value: datafoundrypayment:8080
+          - name: REGISTRY_PUBLIC_ADDR
+            value: ${REGISTRY_PUBLIC_ADDR}
+          - name: APIS_PRD_ADDR
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: INTERNAL_REGISTRY_ADDR
+            value: ${INTERNAL_REGISTRY_ADDR}
+          image: registry.new.dataos.io/datafoundry/web-console:v1
+          imagePullPolicy: Always
+          name: web-console
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - env:
+          - name: MESSAGE_SENDER_ADMIN
+            value: admin
+          - name: DATAFOUNDRY_HOST_ADDR
+            value: https://${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: DATAFOUNDRY_ADMIN_USER
+            value: ${DATAFOUNDRY_ADMIN_USER}
+          - name: DATAFOUNDRY_ADMIN_PASS
+            value: ${DATAFOUNDRY_ADMIN_PASS}
+          - name: DATAFOUNDRY_APISERVER_ADDR
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          - name: DATAFOUNDRY_APISERVER_AWS_ADDR
+            value: ${APISERVER}:${DATAFOUNDRY_API_SERVER_PORT}
+          image: registry.new.dataos.io/datafoundry/proxy
+          imagePullPolicy: Always
+          name: proxy
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: web-console
+      run: web-console
+    name: web-console
+  spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: web-console
+      deploymentconfig: web-console
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: web-console
+  spec:
+    host: ${DATAFOUNDRY_WEB_URL}
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: web-console
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2018-04-25T08:02:32Z
+        status: "True"
+        type: Admitted
+      host: ${DATAFOUNDRY_WEB_URL}
+      routerName: router
+      wildcardPolicy: None
+parameters:
+- description: DATAFOUNDRY_WEB_URL
+  displayName: DATAFOUNDRY_WEB_URL
+  name: DATAFOUNDRY_WEB_URL
+  required: true
+  value: dfweb-test.lo.dataos.io
+- description: DATAFOUNDRY_API_SERVER_ADDR
+  displayName: DATAFOUNDRY_API_SERVER_ADDR
+  name: APISERVER
+  required: true
+  value: 10.1.234.34
+- description: DATAFOUNDRY_API_SERVER_PORT
+  displayName: DATAFOUNDRY_API_SERVER_PORT
+  name: DATAFOUNDRY_API_SERVER_PORT
+  required: true
+  value: "443"
+- description: DATAFOUNDRY_ADMIN_USER
+  displayName: DATAFOUNDRY_ADMIN_USER
+  name: DATAFOUNDRY_ADMIN_USER
+  required: true
+  value: hack
+- description: DATAFOUNDRY_ADMIN_PASS
+  displayName: DATAFOUNDRY_ADMIN_PASS
+  name: DATAFOUNDRY_ADMIN_PASS
+  required: true
+  value: "1234"
+- description: HEKETI_USER
+  displayName: HEKETI_USER
+  name: HEKETI_USER
+  required: true
+  value: admin
+- description: HEKETI_KEY
+  displayName: HEKETI_KEY
+  name: HEKETI_KEY
+  required: true
+  value: kLd834dadEsfwcv
+- description: ROUTER_DOMAIN_SUFFIX
+  displayName: ROUTER_DOMAIN_SUFFIX
+  name: ROUTER_DOMAIN_SUFFIX
+  required: true
+  value: '*.app.prd.asiainfo.com'
+- description: REGISTRY_PRIVATE_ADDR
+  displayName: REGISTRY_PRIVATE_ADDR
+  name: REGISTRY_PRIVATE_ADDR
+  required: true
+  value: docker-registry.default.svc:5000
+- description: INTERNAL_REGISTRY_ADDR
+  displayName: INTERNAL_REGISTRY_ADDR
+  name: INTERNAL_REGISTRY_ADDR
+  required: true
+  value: docker-registry.default.svc:5000
+- description: REGISTRY_PUBLIC_ADDR
+  displayName: REGISTRY_PUBLIC_ADDR
+  name: REGISTRY_PUBLIC_ADDR
+  required: true
+  value: registry.new.dataos.io

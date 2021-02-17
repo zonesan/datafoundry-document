@@ -1,0 +1,25 @@
+#hawkular-metrics
+
+## 配置ansible hosts
+```
+
+...
+#metrics
+
+openshift_hosted_metrics_deploy=true
+openshift_hosted_metrics_deployer_prefix=<REGISTRY_IP>:5000/metrics/origin-
+openshift_hosted_metrics_deployer_version=v3.6.0
+...
+
+```
+
+## 执行命令
+```
+ansible-playbook -i hosts openshift-ansible/playbooks/byo/openshift-cluster/openshift-metrics.yml
+
+```
+
+## 检查容器状态
+```
+oc get pod -n openshift-infra
+```
